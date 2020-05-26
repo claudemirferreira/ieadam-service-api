@@ -1,0 +1,1 @@
+ALTER TABLE `sgr2`.`saa_usuario` ADD COLUMN `profile` VARCHAR(50) AFTER `logomarca`;
