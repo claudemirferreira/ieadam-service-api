@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -193,4 +197,18 @@ public class PerfilServicoImpl implements PerfilServico {
 		}
 		return listDto;
 	}
+	
+	public Page<Perfil> pesquisarPerfil(PerfilDTO dto, int page, int size) {
+		Pageable pageable = PageRequest.of(page, size, Sort.by("nome"));
+		
+		System.out.println("page="+page);
+		System.out.println("size="+size);
+		System.out.println("nome="+dto.getNome());
+		if(dto.getNome() == null || dto.getNome().length() == 0)
+			return perfilRepositorio.findAll(pageable);
+		else 
+			return perfilRepositorio.pesquisa(dto.getNome()+"%", pageable);
+		
+	}
+	
 }

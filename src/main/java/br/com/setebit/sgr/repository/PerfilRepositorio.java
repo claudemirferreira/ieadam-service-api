@@ -2,6 +2,8 @@ package br.com.setebit.sgr.repository;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -28,5 +30,9 @@ public interface PerfilRepositorio extends JpaRepository<Perfil, Integer> {
 
 	@Query("select u from Rotina u where u.sistema = :sistema and u.nome like :nome")
 	public List<Perfil> findBySistemaByNomeLike(@Param("sistema") Sistema sistema, @Param("nome") String nome);
+
+	@Query("SELECT u FROM Perfil u WHERE NOME like ?1 ")
+    Page<Perfil> pesquisa(String nome, Pageable pageable);
+	
 
 }

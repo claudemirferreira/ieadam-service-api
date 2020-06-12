@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -15,6 +14,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * 
@@ -32,9 +33,11 @@ public class Perfil implements Serializable {
 	private Integer id;
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "usuarioPerfilPk.perfil")
+	@JsonIgnore
 	private List<UsuarioPerfil> usuarioPerfil = new ArrayList<UsuarioPerfil>();
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "perfilRotinaPk.perfil")
+	@JsonIgnore
 	private List<PerfilRotina> perfilRotina = new ArrayList<PerfilRotina>();
 
 	@Column(length = 30, nullable = false)
@@ -45,6 +48,7 @@ public class Perfil implements Serializable {
 
 	@ManyToOne
 	@JoinColumn(name = "id_sistema")
+	@JsonIgnore
 	private Sistema sistema;
 
 	public Perfil() {}

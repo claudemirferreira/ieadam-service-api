@@ -2,6 +2,8 @@ package br.com.setebit.sgr.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+
 import br.com.setebit.sgr.dto.PerfilDTO;
 import br.com.setebit.sgr.dto.PerfilRotinaDTO;
 import br.com.setebit.sgr.dto.RotinaDTO;
@@ -41,5 +43,7 @@ public interface PerfilServico {
 	List<PerfilRotinaDTO> listarPerfilRotina(Integer idPerfil);
 
 	PerfilRotinaDTO atualizarPerfilRotina(PerfilRotinaDTO dto);
+	
+	Page<Perfil> pesquisarPerfil(PerfilDTO dto, int page, int size);
 
 }

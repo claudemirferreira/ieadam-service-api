@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -14,14 +15,17 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.setebit.sgr.dto.PerfilDTO;
 import br.com.setebit.sgr.dto.PerfilRotinaDTO;
 import br.com.setebit.sgr.dto.RotinaDTO;
+import br.com.setebit.sgr.dto.UsuarioDTO;
 import br.com.setebit.sgr.dto.UsuarioPerfilDTO;
 import br.com.setebit.sgr.response.Response;
 import br.com.setebit.sgr.security.entity.Perfil;
+import br.com.setebit.sgr.security.entity.Usuario;
 import br.com.setebit.sgr.service.PerfilServico;
 
 @RestController
@@ -130,8 +134,8 @@ public class PerfilController {
 		return ResponseEntity.ok(response);
 	}
 
-	@PostMapping(value = "/pesquisar")
-	public ResponseEntity<Response<List<PerfilDTO>>> pesquisar(HttpServletRequest request, @RequestBody PerfilDTO pefil,
+	@PostMapping(value = "/pesquisar1")
+	public ResponseEntity<Response<List<PerfilDTO>>> pesquisar1(HttpServletRequest request, @RequestBody PerfilDTO pefil,
 			BindingResult result) {
 		Response<List<PerfilDTO>> response = new Response<List<PerfilDTO>>();
 		try {
@@ -142,6 +146,16 @@ public class PerfilController {
 			return ResponseEntity.badRequest().body(response);
 		}
 		return ResponseEntity.ok(response);
+	}
+	
+	@PostMapping(value = "/pesquisar")
+	public Page<Perfil> pesquisar(
+			HttpServletRequest request, 
+			@RequestBody PerfilDTO dto,
+			@RequestParam(value = "page", required = false, defaultValue = "0") int page,
+			@RequestParam(value = "size", required = false, defaultValue = "10") int size,
+			BindingResult result) {
+			return perfilServico.pesquisarPerfil(dto, page, size);
 	}
 	
 	@GetMapping(value = "/perfil-rotina/{idPerfil}")
