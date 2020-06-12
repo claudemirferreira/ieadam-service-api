@@ -2,6 +2,8 @@ package br.com.setebit.sgr.repository;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -33,5 +35,8 @@ public interface RotinaRepositorio extends JpaRepository<Rotina, Integer> {
 			" where a.id_rotina = b.id_rotina \n" + 
 			" and b.id_perfil = :idPerfil", nativeQuery = true)
 	public List<Rotina> listarRotinaPorPerfil(@Param("idPerfil") Integer idPerfil);
+	
+	@Query("select r from Rotina r where r.nome like :nome")
+    Page<Rotina> pesquisa(String nome, Pageable pageable);
 
 }

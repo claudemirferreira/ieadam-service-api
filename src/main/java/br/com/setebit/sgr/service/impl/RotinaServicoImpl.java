@@ -4,11 +4,18 @@ import java.io.Serializable;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import br.com.setebit.sgr.dto.RotinaDTO;
+import br.com.setebit.sgr.dto.UsuarioDTO;
 import br.com.setebit.sgr.repository.RotinaRepositorio;
 import br.com.setebit.sgr.repository.RotinaRepositorioSql;
 import br.com.setebit.sgr.security.entity.Rotina;
+import br.com.setebit.sgr.security.entity.Usuario;
 import br.com.setebit.sgr.service.RotinaServico;
 
 @Service
@@ -62,5 +69,18 @@ public class RotinaServicoImpl implements RotinaServico, Serializable {
 	@Override
 	public void delete(Integer id) {
 		this.rotinaRepositorio.deleteById(id);
+	}
+	
+	public Page<Rotina> pesquisarRotina(RotinaDTO dto, int page, int size) {
+		Pageable pageable = PageRequest.of(page, size, Sort.by("nome"));
+		
+		System.out.println("page="+page);
+		System.out.println("size="+size);
+		System.out.println("nome="+dto.getNome());
+		if(dto.getNome() == null || dto.getNome().length() == 0)
+			return rotinaRepositorio.findAll(pageable);
+		else 
+			return rotinaRepositorio.pesquisa(dto.getNome()+"%", pageable);
+		
 	}
 }

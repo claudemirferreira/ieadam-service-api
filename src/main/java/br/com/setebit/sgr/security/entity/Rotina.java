@@ -12,6 +12,8 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * 
  * @author altitdb
@@ -41,6 +43,7 @@ public class Rotina implements Serializable {
 
 	@ManyToOne
 	@JoinColumn(name = "id_sistema")
+	@JsonIgnore
 	private Sistema sistema;
 
 	@Lob

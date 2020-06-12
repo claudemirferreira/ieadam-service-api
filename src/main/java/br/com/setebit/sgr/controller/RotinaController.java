@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
@@ -16,11 +17,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.setebit.sgr.dto.RotinaDTO;
+import br.com.setebit.sgr.dto.UsuarioDTO;
 import br.com.setebit.sgr.response.Response;
 import br.com.setebit.sgr.security.entity.Rotina;
+import br.com.setebit.sgr.security.entity.Usuario;
 import br.com.setebit.sgr.service.RotinaServico;
 
 @RestController
@@ -50,20 +54,20 @@ public class RotinaController {
 		return ResponseEntity.ok(response);
 
 	}
-
+	
 	@PostMapping(value = "/pesquisar")
-	public ResponseEntity<Response<List<RotinaDTO>>> pesquisar(HttpServletRequest request, @RequestBody Rotina rotina,
+	public Page<Rotina> pesquisar(
+			HttpServletRequest request, 
+			@RequestBody RotinaDTO rotina,
+			@RequestParam(value = "page", required = false, defaultValue = "0") int page,
+			@RequestParam(value = "size", required = false, defaultValue = "10") int size,
 			BindingResult result) {
-		Response<List<RotinaDTO>> response = new Response<List<RotinaDTO>>();
-		try {
-			List<RotinaDTO> list = RotinaDTO.toDTO(servico.findByNomeLike(rotina.getNome()));
-			response.setData(list);
-		} catch (Exception e) {
-			response.getErrors().add(e.getMessage());
-			return ResponseEntity.badRequest().body(response);
-		}
-		return ResponseEntity.ok(response);
+		System.out.println("pesquisar"
+				+ "");
+		
+			return servico.pesquisarRotina(rotina, page, size);
 	}
+
 
 	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<Response<RotinaDTO>> delete(@PathVariable("id") Integer id) {

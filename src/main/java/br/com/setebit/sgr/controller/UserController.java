@@ -99,7 +99,7 @@ public class UserController {
 	}
 	
 	@PostMapping(value = "/pesquisar")
-	public Page<Usuario> pesquisar1(
+	public Page<Usuario> pesquisar(
 			HttpServletRequest request, 
 			@RequestBody UsuarioDTO user,
 			@RequestParam(value = "page", required = false, defaultValue = "0") int page,
