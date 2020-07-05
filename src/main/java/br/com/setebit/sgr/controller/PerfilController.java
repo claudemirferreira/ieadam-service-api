@@ -155,6 +155,7 @@ public class PerfilController {
 			@RequestParam(value = "page", required = false, defaultValue = "0") int page,
 			@RequestParam(value = "size", required = false, defaultValue = "10") int size,
 			BindingResult result) {
+		System.out.println("perfil");
 			return perfilServico.pesquisarPerfil(dto, page, size);
 	}
 	

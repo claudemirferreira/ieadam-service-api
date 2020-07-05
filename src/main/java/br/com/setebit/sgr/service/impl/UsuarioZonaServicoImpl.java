@@ -35,10 +35,17 @@ public class UsuarioZonaServicoImpl implements UsuarioZonaServico {
 		repositorio.delete(usuarioNucleo);
 	}
 
+	@SuppressWarnings("finally")
 	@Override
 	public UsuarioZona findByUsuarioAndByZona(Usuario usuario, Zona zona) {
-		UsuarioZona usuarioZona = repositorio.findByUsuarioAndByZona(usuario, zona);
-		return usuarioZona;
+		System.out.println("findByUsuarioAndByZona("+usuario.getId() + ", " + zona.getIdZona()+")");
+		try {
+			UsuarioZona usuarioZona = repositorio.findByUsuarioAndByZona(usuario, zona);
+			return usuarioZona;
+		} catch (Exception e) {
+			repositorio.deleteByUsuarioAndByZona(usuario, zona);
+		} 
+		return null;
 	}
 
 	@Override
