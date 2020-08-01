@@ -8,7 +8,7 @@ import org.springframework.data.repository.query.Param;
 
 import br.com.setebit.sgr.security.entity.Nucleo;
 
-public interface NucleoRepositorio extends JpaRepository<Nucleo, Long> {
+public interface NucleoRepositorio extends JpaRepository<Nucleo, Integer> {
 
 	@Query("select n from Nucleo n where n.zona.idZona = :zona")
 	public List<Nucleo> findByZona(@Param("zona") int zona);
@@ -18,5 +18,8 @@ public interface NucleoRepositorio extends JpaRepository<Nucleo, Long> {
 
 	@Query("select n from Nucleo n where n.id = :id")
 	public Nucleo findOne(@Param("id") int id);
+
+	@Query( "select a from Nucleo a where a.zona.idZona in :ids" )
+	List<Nucleo> findByZonaIds(@Param("ids") List<Integer> ids);
 
 }

@@ -6,9 +6,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import br.com.setebit.sgr.security.entity.Area;
 import br.com.setebit.sgr.security.entity.Zona;
 
-public interface ZonaRepositorio extends JpaRepository<Zona, Long> {
+public interface ZonaRepositorio extends JpaRepository<Zona, Integer> {
 
 	@Query("select z from Zona z where z.idPrimeiroResp = :membro or z.idSegundoResp =:membro")
 	public List<Zona> findByMembro(@Param("membro") int membro);
@@ -18,4 +19,5 @@ public interface ZonaRepositorio extends JpaRepository<Zona, Long> {
 
 	@Query("select z from Zona z where z.situacao = :situacao")
 	public List<Zona> findAllBySituacao(@Param("situacao") String situacao);
+	
 }

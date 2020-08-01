@@ -2,11 +2,13 @@ package br.com.setebit.sgr.service.impl;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.setebit.sgr.dto.AreaDTO;
+import br.com.setebit.sgr.dto.NucleoDTO;
 import br.com.setebit.sgr.repository.AreaRepositorio;
 import br.com.setebit.sgr.repository.AreaRepositorioSql;
 import br.com.setebit.sgr.security.entity.Area;
@@ -62,6 +64,15 @@ public class AreaServicoImpl implements AreaServico, Serializable {
 	@Override
 	public List<Area> listaAreaToZona(Zona zona) {
 		return repositorioSql.listaAreaToZona(zona);
+	}
+	
+	@Override
+	public List<AreaDTO> listaAreas(List<NucleoDTO> nucleos) {
+		List<Integer> ids = nucleos.stream().map(x -> x.getId()).collect(Collectors.toList());
+		List<Area> areas = repositorio.findByNucleoIds(ids);
+		System.out.println(areas.size());
+		
+		return AreaDTO.toDTO(areas);
 	}
 
 }

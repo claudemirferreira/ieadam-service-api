@@ -3,6 +3,7 @@ package br.com.setebit.sgr.service;
 import java.util.List;
 
 import br.com.setebit.sgr.dto.NucleoDTO;
+import br.com.setebit.sgr.dto.ZonaDTO;
 import br.com.setebit.sgr.security.entity.Nucleo;
 import br.com.setebit.sgr.security.entity.Usuario;
 
@@ -25,4 +26,7 @@ public interface NucleoServico {
 	public List<NucleoDTO> listaNucleoToUsuarioAndZona(int idUsuario, int idZona);
 
 	public boolean isUsuarioDeNucleo(int usuarioId, int idNucleo);
+	
+	public List<NucleoDTO> listaNucleos(List<ZonaDTO> zonas);
+	
 }

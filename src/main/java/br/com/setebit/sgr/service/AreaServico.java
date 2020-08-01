@@ -3,6 +3,7 @@ package br.com.setebit.sgr.service;
 import java.util.List;
 
 import br.com.setebit.sgr.dto.AreaDTO;
+import br.com.setebit.sgr.dto.NucleoDTO;
 import br.com.setebit.sgr.security.entity.Area;
 import br.com.setebit.sgr.security.entity.Zona;
 
@@ -23,5 +24,7 @@ public interface AreaServico {
 	public List<AreaDTO> listaAreaToUsuarioAndNucleo(int idUsuario, int idNucleo);
 
 	public List<Area> listaAreaToZona(Zona zona);
+
+	public List<AreaDTO> listaAreas(List<NucleoDTO> nucleos);
 
 }

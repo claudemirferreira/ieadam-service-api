@@ -89,7 +89,12 @@ public class RelatorioServiceImpl implements RelatorioService {
 			if (this.parametroRelatorioDTO.getZonas().size() == 1) {
 				this.parametroRelatorioDTO.setZona(this.parametroRelatorioDTO.getZonas().iterator().next());
 				this.atualizarNucleo();
-			}
+			} else if (this.parametroRelatorioDTO.getZonas().size() > 1){
+				//lista todos os nucleo de todas as zonas do usuario
+				this.parametroRelatorioDTO.setNucleos( nucleoServico.listaNucleos(this.parametroRelatorioDTO.getZonas()));
+				//lista todas as areas de todos as nucleos do usuario
+				this.parametroRelatorioDTO.setAreas( areaServico.listaAreas(this.parametroRelatorioDTO.getNucleos()));
+			} 
 			if (this.parametroRelatorioDTO.getNucleos().size() == 1) {
 				this.parametroRelatorioDTO.setNucleo(this.parametroRelatorioDTO.getNucleos().iterator().next());
 				this.atualizarArea();
