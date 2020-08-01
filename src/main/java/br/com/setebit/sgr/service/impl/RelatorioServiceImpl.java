@@ -9,11 +9,14 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import br.com.setebit.sgr.dto.AreaDTO;
+import br.com.setebit.sgr.dto.ComboDTO;
 import br.com.setebit.sgr.dto.FiltroRelatorioDTO;
 import br.com.setebit.sgr.dto.NucleoDTO;
 import br.com.setebit.sgr.dto.UsuarioDTO;
 import br.com.setebit.sgr.dto.FiltroDTO;
 import br.com.setebit.sgr.dto.ZonaDTO;
+import br.com.setebit.sgr.security.entity.Area;
+import br.com.setebit.sgr.security.entity.Nucleo;
 import br.com.setebit.sgr.security.entity.Usuario;
 import br.com.setebit.sgr.security.jwt.JwtUser;
 import br.com.setebit.sgr.service.AreaServico;
@@ -274,6 +277,20 @@ public class RelatorioServiceImpl implements RelatorioService {
 		}
 		
 		return this.parametroRelatorioDTO.getAreas();
+	}
+	
+	public ComboDTO atualizarCombos(ComboDTO dto) {
+		
+		if (dto.getArea().getNome().length() > 0) {
+			Area area = this.areaServico.findById(dto.getArea().getId());		
+			dto = ComboDTO.toDTO(area);
+		} if (dto.getNucleo().getNome().length() >= 0) {
+			Nucleo nucleo = this.nucleoServico.findOne(dto.getNucleo().getId());		
+			dto = ComboDTO.toDTO(nucleo);
+			dto.setAreas(this.areaServico.findByNucleo(dto.getNucleo().getId()));
+		}
+		
+		return dto;
 	}
 
 }

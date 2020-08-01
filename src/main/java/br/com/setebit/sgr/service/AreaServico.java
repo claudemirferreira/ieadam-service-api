@@ -26,5 +26,7 @@ public interface AreaServico {
 	public List<Area> listaAreaToZona(Zona zona);
 
 	public List<AreaDTO> listaAreas(List<NucleoDTO> nucleos);
+	
+	Area findById(Integer id);
 
 }

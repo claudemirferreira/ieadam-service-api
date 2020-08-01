@@ -5,6 +5,7 @@ import java.util.List;
 
 import br.com.setebit.sgr.dto.FiltroDTO;
 import br.com.setebit.sgr.dto.AreaDTO;
+import br.com.setebit.sgr.dto.ComboDTO;
 import br.com.setebit.sgr.dto.FiltroRelatorioDTO;
 import br.com.setebit.sgr.dto.NucleoDTO;
 import net.sf.jasperreports.engine.JRException;
@@ -19,5 +20,7 @@ public interface RelatorioService {
 	public List<NucleoDTO> carregarNucleo(int id);
 	
 	public List<AreaDTO> carregarArea(int idNucleo);
+	
+	public ComboDTO atualizarCombos(ComboDTO dto);
 
 }

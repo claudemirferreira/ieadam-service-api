@@ -75,4 +75,9 @@ public class AreaServicoImpl implements AreaServico, Serializable {
 		return AreaDTO.toDTO(areas);
 	}
 
+	@Override
+	public Area findById(Integer id) {
+		return repositorio.findById(id).get();
+	}
+
 }

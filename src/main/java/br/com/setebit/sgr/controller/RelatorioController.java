@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.setebit.sgr.dto.AreaDTO;
+import br.com.setebit.sgr.dto.ComboDTO;
 import br.com.setebit.sgr.dto.FiltroDTO;
 import br.com.setebit.sgr.dto.FiltroRelatorioDTO;
 import br.com.setebit.sgr.dto.NucleoDTO;
@@ -121,6 +122,15 @@ public class RelatorioController {
 		Response<List<PerfilDTO>> response = new Response<List<PerfilDTO>>();
 		List<PerfilDTO> list = PerfilDTO.toDTO(perfilServico.listarPerfil());
 		response.setData(list);
+		return ResponseEntity.ok(response);
+	}
+	
+	@RequestMapping(value = "/atualizarCombos", method = RequestMethod.POST)
+	public ResponseEntity<Response<ComboDTO>> atualizarCombos(@RequestBody ComboDTO dto) {
+		System.out.println("##############carregarDados()");
+		dto = service.atualizarCombos(dto);
+		Response<ComboDTO> response = new Response<ComboDTO>();
+		response.setData(dto);
 		return ResponseEntity.ok(response);
 	}
 
