@@ -15,6 +15,8 @@ public class NucleoDTO implements Serializable {
 	private String nome;
 	
 	private boolean usuarioNucleo;
+	
+	private ZonaDTO zona;
 
 	public NucleoDTO() {
 	}
@@ -53,8 +55,18 @@ public class NucleoDTO implements Serializable {
 		this.usuarioNucleo = usuarioNucleo;
 	}
 
+	public ZonaDTO getZona() {
+		return zona;
+	}
+
+	public void setZona(ZonaDTO zona) {
+		this.zona = zona;
+	}
+
 	public static NucleoDTO toDTO(Nucleo entity) {
-		return new NucleoDTO(entity.getId(), entity.getNome());
+		NucleoDTO nucleo = new NucleoDTO(entity.getId(), entity.getNome());
+		nucleo.zona = new ZonaDTO(entity.getZona().getIdZona(), entity.getZona().getNome());
+		return nucleo;
 	}
 
 	public static List<NucleoDTO> toDTO(List<Nucleo> list) {
@@ -62,5 +74,6 @@ public class NucleoDTO implements Serializable {
 		list.forEach(item -> dtos.add(toDTO(item)));
 		return dtos;
 	}
+
 
 }

@@ -13,8 +13,10 @@ public class AreaDTO implements Serializable {
 	private int id;
 
 	private String nome;
-	
+
 	private boolean usuarioArea;
+
+	private NucleoDTO nucleo;
 
 	public AreaDTO() {
 	}
@@ -49,8 +51,18 @@ public class AreaDTO implements Serializable {
 		this.usuarioArea = usuarioArea;
 	}
 
+	public NucleoDTO getNucleo() {
+		return nucleo;
+	}
+
+	public void setNucleo(NucleoDTO nucleo) {
+		this.nucleo = nucleo;
+	}
+
 	public static AreaDTO toDTO(Area entity) {
-		return new AreaDTO(entity.getIdArea(), entity.getNome());
+		AreaDTO area = new AreaDTO(entity.getIdArea(), entity.getNome());
+		area.nucleo = NucleoDTO.toDTO(entity.getNucleo());
+		return area;
 	}
 
 	public static List<AreaDTO> toDTO(List<Area> list) {
