@@ -22,6 +22,7 @@ public class ZonaRepositorioSqlImpl implements ZonaRepositorioSql {
 		//TODO TESTE
 		//String SQL = "select p.* from ieadam_usuario_zona z, ieadam_zona p where z.id_zona = p.id_zona and z.id_usuario = 1673 and p.id_zona = 1";
 
+		/*
 		
 		String SQL1 = "select distinct r.* from " + " (select p.* from ieadam_usuario_zona z, ieadam_zona p "
 				+ " where z.id_zona = p.id_zona and z.id_usuario = " + usuarioId;
@@ -35,6 +36,9 @@ public class ZonaRepositorioSqlImpl implements ZonaRepositorioSql {
 				+ " and z.id_zona = o.id_zona and n.id_usuario = " + usuarioId + " ) as r;";
 
 		String SQL = SQL1 + SQL2 + SQL3;
+		*/
+		
+		String SQL = "select a.* from  ieadam_zona a, ieadam_usuario_zona b where a.id_zona = b.id_zona and b.id_usuario = " + usuarioId ;
 		
 		System.out.println("=========== inicio listaZonaUsuario ============= ");
 		System.out.println(SQL);

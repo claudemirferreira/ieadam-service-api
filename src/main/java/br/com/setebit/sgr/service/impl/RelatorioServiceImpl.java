@@ -86,6 +86,8 @@ public class RelatorioServiceImpl implements RelatorioService {
 		// Flag para identificar se o usuario eh administrador do Sistema
 		if (usuario.isZona() && usuario.isNucleo() && usuario.isArea()) {
 			this.parametroRelatorioDTO.setZonas(ZonaDTO.toDTO(this.zonaServico.listarTodos()));
+			this.parametroRelatorioDTO.setNucleos(NucleoDTO.toDTO(this.nucleoServico.listarTodos()));
+			this.parametroRelatorioDTO.setAreas(AreaDTO.toDTO(this.areaServico.listarTodos()));
 		} else {
 			this.parametroRelatorioDTO.setZonas(ZonaDTO.toDTO(this.zonaServico
 					.listaZonaUsuario(usuario.getId())));
@@ -98,31 +100,6 @@ public class RelatorioServiceImpl implements RelatorioService {
 				//lista todas as areas de todos as nucleos do usuario
 				this.parametroRelatorioDTO.setAreas( areaServico.listaAreas(this.parametroRelatorioDTO.getNucleos()));
 			} 
-			if (this.parametroRelatorioDTO.getNucleos().size() == 1) {
-				this.parametroRelatorioDTO.setNucleo(this.parametroRelatorioDTO.getNucleos().iterator().next());
-				this.atualizarArea();
-			}
-		}
-	}
-
-	public void preencherCombosOld(Usuario usuario) {
-		this.parametroRelatorioDTO.setZonas(new ArrayList<ZonaDTO>());
-		this.parametroRelatorioDTO.setNucleos(new ArrayList<NucleoDTO>());
-		this.parametroRelatorioDTO.setAreas(new ArrayList<AreaDTO>());
-
-		this.parametroRelatorioDTO.setZonas(ZonaDTO.toDTO(this.zonaServico.listarTodos()));
-
-		// Flag para identificar se o usuario eh administrador do Sistema
-		if (usuario.isZona() && usuario.isNucleo() && usuario.isArea()) {
-			this.parametroRelatorioDTO.setZonas(ZonaDTO.toDTO(this.zonaServico.listarTodos()));
-		} else {
-			this.parametroRelatorioDTO.setZonas(ZonaDTO.toDTO(this.zonaServico.listaZonaUsuario(usuario.getId())));
-
-			if (this.parametroRelatorioDTO.getZonas().size() == 1) {
-				this.parametroRelatorioDTO.setZona(this.parametroRelatorioDTO.getZonas().iterator().next());
-				this.atualizarNucleo();
-			}
-
 			if (this.parametroRelatorioDTO.getNucleos().size() == 1) {
 				this.parametroRelatorioDTO.setNucleo(this.parametroRelatorioDTO.getNucleos().iterator().next());
 				this.atualizarArea();
@@ -237,6 +214,9 @@ public class RelatorioServiceImpl implements RelatorioService {
 		this.parametroRelatorioDTO.setAreas(new ArrayList<AreaDTO>());
 		this.parametroRelatorioDTO.setArea(new AreaDTO());
 		this.parametroRelatorioDTO.setNucleo(new NucleoDTO(idNucleo));
+		
+		if (idNucleo < 0)
+			return carregarAreaUsuario();
 
 		boolean nucleoAssociado = false;
 
@@ -274,6 +254,27 @@ public class RelatorioServiceImpl implements RelatorioService {
 				this.parametroRelatorioDTO
 						.setAreas(this.areaServico.findByNucleo(this.parametroRelatorioDTO.getNucleo().getId()));
 			}
+		}
+		
+		return this.parametroRelatorioDTO.getAreas();
+	}
+	
+	///claude
+	public List<AreaDTO> carregarAreaUsuario() {
+		
+		JwtUser user = (JwtUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		//TODO pega o usuario no banco de dados
+		UsuarioDTO usuario = UsuarioDTO.toDTO(usuarioServico.findByOne( Integer.parseInt(user.getId())));
+		this.parametroRelatorioDTO.setUsuarioLogado(usuario);
+		
+		if (usuario.isZona() && usuario.isNucleo() && usuario.isArea()) {
+			this.parametroRelatorioDTO.setAreas(AreaDTO.toDTO(this.areaServico.listarTodos()));
+		} else {			
+			this.parametroRelatorioDTO.setZonas(ZonaDTO.toDTO(this.zonaServico
+					.listaZonaUsuario(usuario.getId())));
+	
+			//lista todas as areas de todos as nucleos do usuario
+			this.parametroRelatorioDTO.setAreas( areaServico.listaAreas(this.parametroRelatorioDTO.getNucleos()));
 		}
 		
 		return this.parametroRelatorioDTO.getAreas();
