@@ -21,11 +21,9 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.setebit.sgr.dto.PerfilDTO;
 import br.com.setebit.sgr.dto.PerfilRotinaDTO;
 import br.com.setebit.sgr.dto.RotinaDTO;
-import br.com.setebit.sgr.dto.UsuarioDTO;
 import br.com.setebit.sgr.dto.UsuarioPerfilDTO;
 import br.com.setebit.sgr.response.Response;
 import br.com.setebit.sgr.security.entity.Perfil;
-import br.com.setebit.sgr.security.entity.Usuario;
 import br.com.setebit.sgr.service.PerfilServico;
 
 @RestController
@@ -99,7 +97,6 @@ public class PerfilController {
 		return ResponseEntity.ok(response);
 	}
 
-
 	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<Response<String>> delete(@PathVariable("id") Integer id) {
 		Response<String> response = new Response<String>();
@@ -135,8 +132,8 @@ public class PerfilController {
 	}
 
 	@PostMapping(value = "/pesquisar1")
-	public ResponseEntity<Response<List<PerfilDTO>>> pesquisar1(HttpServletRequest request, @RequestBody PerfilDTO pefil,
-			BindingResult result) {
+	public ResponseEntity<Response<List<PerfilDTO>>> pesquisar1(HttpServletRequest request,
+			@RequestBody PerfilDTO pefil, BindingResult result) {
 		Response<List<PerfilDTO>> response = new Response<List<PerfilDTO>>();
 		try {
 			List<PerfilDTO> list = PerfilDTO.toDTO(perfilServico.findByNomeLike(pefil.getNome()));
@@ -147,20 +144,18 @@ public class PerfilController {
 		}
 		return ResponseEntity.ok(response);
 	}
-	
+
 	@PostMapping(value = "/pesquisar")
-	public Page<Perfil> pesquisar(
-			HttpServletRequest request, 
-			@RequestBody PerfilDTO dto,
+	public Page<Perfil> pesquisar(HttpServletRequest request, @RequestBody PerfilDTO dto,
 			@RequestParam(value = "page", required = false, defaultValue = "0") int page,
-			@RequestParam(value = "size", required = false, defaultValue = "10") int size,
-			BindingResult result) {
+			@RequestParam(value = "size", required = false, defaultValue = "10") int size, BindingResult result) {
 		System.out.println("perfil");
-			return perfilServico.pesquisarPerfil(dto, page, size);
+		return perfilServico.pesquisarPerfil(dto, page, size);
 	}
-	
+
 	@GetMapping(value = "/perfil-rotina/{idPerfil}")
-	public ResponseEntity<Response<List<PerfilRotinaDTO>>> listarPerfilRotina(@PathVariable("idPerfil") Integer idPerfil) {
+	public ResponseEntity<Response<List<PerfilRotinaDTO>>> listarPerfilRotina(
+			@PathVariable("idPerfil") Integer idPerfil) {
 		System.out.println("###############listarPerfilRotina");
 		Response<List<PerfilRotinaDTO>> response = new Response<List<PerfilRotinaDTO>>();
 		List<PerfilRotinaDTO> list = perfilServico.listarPerfilRotina(idPerfil);

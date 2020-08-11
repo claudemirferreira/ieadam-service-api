@@ -9,7 +9,6 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,10 +20,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.setebit.sgr.dto.RotinaDTO;
-import br.com.setebit.sgr.dto.UsuarioDTO;
 import br.com.setebit.sgr.response.Response;
 import br.com.setebit.sgr.security.entity.Rotina;
-import br.com.setebit.sgr.security.entity.Usuario;
 import br.com.setebit.sgr.service.RotinaServico;
 
 @RestController
@@ -54,20 +51,15 @@ public class RotinaController {
 		return ResponseEntity.ok(response);
 
 	}
-	
-	@PostMapping(value = "/pesquisar")
-	public Page<Rotina> pesquisar(
-			HttpServletRequest request, 
-			@RequestBody RotinaDTO rotina,
-			@RequestParam(value = "page", required = false, defaultValue = "0") int page,
-			@RequestParam(value = "size", required = false, defaultValue = "10") int size,
-			BindingResult result) {
-		System.out.println("pesquisar"
-				+ "");
-		
-			return servico.pesquisarRotina(rotina, page, size);
-	}
 
+	@PostMapping(value = "/pesquisar")
+	public Page<Rotina> pesquisar(HttpServletRequest request, @RequestBody RotinaDTO rotina,
+			@RequestParam(value = "page", required = false, defaultValue = "0") int page,
+			@RequestParam(value = "size", required = false, defaultValue = "10") int size, BindingResult result) {
+		System.out.println("pesquisar" + "");
+
+		return servico.pesquisarRotina(rotina, page, size);
+	}
 
 	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<Response<RotinaDTO>> delete(@PathVariable("id") Integer id) {

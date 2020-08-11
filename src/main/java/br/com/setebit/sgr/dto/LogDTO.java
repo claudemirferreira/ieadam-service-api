@@ -5,17 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
-import br.com.setebit.sgr.security.entity.Area;
 import br.com.setebit.sgr.security.entity.LogApp;
-import br.com.setebit.sgr.security.entity.Usuario;
 
 public class LogDTO implements Serializable {
 
@@ -26,14 +16,15 @@ public class LogDTO implements Serializable {
 	private Date dataInicio;
 
 	private Date dataFim;
-	
+
 	private Integer idLogApp;
 
 	private Date dataHoraAcao;
 
 	private String acaoUsuario;
-	
-	public LogDTO() {}
+
+	public LogDTO() {
+	}
 
 	public LogDTO(String nomeUsuario, Date dataInicio, Date dataFim) {
 		super();
@@ -65,7 +56,7 @@ public class LogDTO implements Serializable {
 	public void setDataFim(Date dataFim) {
 		this.dataFim = dataFim;
 	}
-	
+
 	public Integer getIdLogApp() {
 		return idLogApp;
 	}

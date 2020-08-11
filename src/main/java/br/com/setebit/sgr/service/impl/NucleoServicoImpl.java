@@ -1,7 +1,6 @@
 package br.com.setebit.sgr.service.impl;
 
 import java.io.Serializable;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -14,7 +13,6 @@ import br.com.setebit.sgr.repository.NucleoRepositorio;
 import br.com.setebit.sgr.repository.NucleoRepositorioSql;
 import br.com.setebit.sgr.security.entity.Nucleo;
 import br.com.setebit.sgr.security.entity.Usuario;
-import br.com.setebit.sgr.security.entity.Zona;
 import br.com.setebit.sgr.service.NucleoServico;
 
 @Service
@@ -72,13 +70,13 @@ public class NucleoServicoImpl implements NucleoServico, Serializable {
 	public boolean isUsuarioDeNucleo(int usuarioId, int idNucleo) {
 		return repositorioSql.isUsuarioDeNucleo(usuarioId, idNucleo);
 	}
-	
+
 	@Override
 	public List<NucleoDTO> listaNucleos(List<ZonaDTO> zonas) {
 		List<Integer> ids = zonas.stream().map(x -> x.getId()).collect(Collectors.toList());
 		List<Nucleo> nucleos = repositorio.findByZonaIds(ids);
 		System.out.println(nucleos.size());
-		
+
 		return NucleoDTO.toDTO(nucleos);
 	}
 }

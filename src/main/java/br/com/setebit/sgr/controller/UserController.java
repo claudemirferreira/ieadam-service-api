@@ -8,8 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -97,35 +95,21 @@ public class UserController {
 		}
 		return ResponseEntity.ok(response);
 	}
-	
-	@PostMapping(value = "/pesquisar")
-	public Page<Usuario> pesquisar(
-			HttpServletRequest request, 
-			@RequestBody UsuarioDTO user,
-			@RequestParam(value = "page", required = false, defaultValue = "0") int page,
-			@RequestParam(value = "size", required = false, defaultValue = "10") int size,
-			BindingResult result) {
-		
-			return service.pesquisarUsuario(user, page, size);
-	}
 
-	private void validateUpdate(Usuario user, BindingResult result) {
-		if (user.getId() == 0) {
-			result.addError(new ObjectError("Usuario", "Id no information"));
-			return;
-		}
-		if (user.getEmail() == null) {
-			result.addError(new ObjectError("Usuario", "Email no information"));
-			return;
-		}
+	@PostMapping(value = "/pesquisar")
+	public Page<Usuario> pesquisar(HttpServletRequest request, @RequestBody UsuarioDTO user,
+			@RequestParam(value = "page", required = false, defaultValue = "0") int page,
+			@RequestParam(value = "size", required = false, defaultValue = "10") int size, BindingResult result) {
+
+		return service.pesquisarUsuario(user, page, size);
 	}
 
 	private void validate(Usuario user, BindingResult result) {
 		System.out.println(user.getId());
-		System.out.println("getLogin="+user.getLogin());
+		System.out.println("getLogin=" + user.getLogin());
 		if (user.getId() == 0) {
 			if (service.findByLogin(user.getLogin()) != null) {
-				result.addError(new ObjectError("Usuario", "Ja existe um usuario com o login " + user.getLogin() ));
+				result.addError(new ObjectError("Usuario", "Ja existe um usuario com o login " + user.getLogin()));
 				return;
 			}
 		}
@@ -165,10 +149,9 @@ public class UserController {
 		response.setData(users);
 		return ResponseEntity.ok(response);
 	}
-	
+
 	@GetMapping("search")
-	public Page<Usuario> search(
-			@RequestParam(value = "nome", required = false, defaultValue = "0") String nome,
+	public Page<Usuario> search(@RequestParam(value = "nome", required = false, defaultValue = "0") String nome,
 			@RequestParam(value = "page", required = false, defaultValue = "0") int page,
 			@RequestParam(value = "size", required = false, defaultValue = "10") int size) {
 		System.out.println("search");
