@@ -12,6 +12,7 @@ import br.com.setebit.sgr.dto.NucleoDTO;
 import br.com.setebit.sgr.repository.AreaRepositorio;
 import br.com.setebit.sgr.repository.AreaRepositorioSql;
 import br.com.setebit.sgr.security.entity.Area;
+import br.com.setebit.sgr.security.entity.Usuario;
 import br.com.setebit.sgr.security.entity.Zona;
 import br.com.setebit.sgr.service.AreaServico;
 
@@ -78,6 +79,11 @@ public class AreaServicoImpl implements AreaServico, Serializable {
 	@Override
 	public Area findById(Integer id) {
 		return repositorio.findById(id).get();
+	}
+
+	@Override
+	public List<AreaDTO> listaAreaToUsuario(Integer idUsuario) {
+		return AreaDTO.toDTO(repositorioSql.listaAreaToUsuario(idUsuario));
 	}
 
 }

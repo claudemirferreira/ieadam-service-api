@@ -29,8 +29,20 @@ public class AreaRepositorioSqlImpl implements AreaRepositorioSql {
 	@SuppressWarnings("unchecked")
 	public List<Area> listaAreaToZona(Zona zona) {
 
-		String SQL = "select a.* from sgr.ieadam_area a, sgr.ieadam_nucleo b, sgr.ieadam_zona c "
+		String SQL = "select a.* from ieadam_area a, ieadam_nucleo b, ieadam_zona c "
 				+ "where a.id_nucleo = b.id_nucleo and b.id_zona = c.id_zona " + "and c.id_zona =" + zona.getIdZona();
+
+		return entityManager.createNativeQuery(SQL, Area.class).getResultList();
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<Area> listaAreaToUsuario(Integer idUsuario) {
+
+		String SQL = " select distinct b.* from ieadam_usuario_area a, ieadam_area b\r\n" + 
+				" where a.id_area = b.id_area \r\n" + 
+				" and a.id_usuario =" + idUsuario;
+		System.out.println(SQL);
 
 		return entityManager.createNativeQuery(SQL, Area.class).getResultList();
 	}

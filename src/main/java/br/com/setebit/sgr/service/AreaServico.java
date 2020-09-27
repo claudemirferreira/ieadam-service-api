@@ -5,6 +5,7 @@ import java.util.List;
 import br.com.setebit.sgr.dto.AreaDTO;
 import br.com.setebit.sgr.dto.NucleoDTO;
 import br.com.setebit.sgr.security.entity.Area;
+import br.com.setebit.sgr.security.entity.Usuario;
 import br.com.setebit.sgr.security.entity.Zona;
 
 public interface AreaServico {
@@ -28,5 +29,7 @@ public interface AreaServico {
 	public List<AreaDTO> listaAreas(List<NucleoDTO> nucleos);
 	
 	Area findById(Integer id);
+	
+	List<AreaDTO> listaAreaToUsuario(Integer id);
 
 }

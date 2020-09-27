@@ -48,15 +48,15 @@ public class UsuarioAreaServicoImpl implements UsuarioAreaServico {
 
 	}
 
-	@Override
-	public List<Area> findByUsuario(Usuario usuario) {
-		List<UsuarioArea> lista = repositorio.findByUsuario(usuario);
-		List<Area> areas = new ArrayList<Area>();
-		for (UsuarioArea usuarioArea : lista) {
-			areas.add(usuarioArea.getArea());
-		}
-		return areas;
-	}
+//	@Override
+//	public List<Area> findByUsuario(Usuario usuario) {
+//		List<UsuarioArea> lista = repositorio.findByUsuario(usuario);
+//		List<Area> areas = new ArrayList<Area>();
+//		for (UsuarioArea usuarioArea : lista) {
+//			areas.add(usuarioArea.getArea());
+//		}
+//		return areas;
+//	}
 
 	@Override
 	public UsuarioAreaDTO atualizar(UsuarioAreaDTO dto) {
@@ -69,4 +69,10 @@ public class UsuarioAreaServicoImpl implements UsuarioAreaServico {
 		}
 		return dto;
 	}
+	
+	@Override
+	public List<UsuarioArea> findByUsuario(Usuario usuario) {
+		return repositorio.findByUsuario(usuario);
+	}
+	
 }

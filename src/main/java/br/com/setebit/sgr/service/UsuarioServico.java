@@ -5,12 +5,14 @@ import java.util.List;
 import javax.persistence.NoResultException;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.repository.query.Param;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
 import br.com.setebit.sgr.dto.UsuarioAssociacaoDTO;
 import br.com.setebit.sgr.dto.UsuarioDTO;
 import br.com.setebit.sgr.security.entity.Usuario;
+import br.com.setebit.sgr.security.entity.UsuarioArea;
 
 @Component
 public interface UsuarioServico extends UserDetailsService {
@@ -36,5 +38,6 @@ public interface UsuarioServico extends UserDetailsService {
 	Usuario alterarSenha(UsuarioDTO dto);
 	
 	Page<Usuario> pesquisarUsuario(UsuarioDTO usuario, int page, int size);
+	
 
 }

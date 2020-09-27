@@ -11,4 +11,6 @@ public interface AreaRepositorioSql {
 
 	public List<Area> listaAreaToZona(Zona zona);
 
+	List<Area> listaAreaToUsuario(Integer idUsuario);
+
 }

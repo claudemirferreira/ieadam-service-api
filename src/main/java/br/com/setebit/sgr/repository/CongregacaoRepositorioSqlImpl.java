@@ -20,8 +20,8 @@ public class CongregacaoRepositorioSqlImpl implements CongregacaoRepositorioSql 
 	@SuppressWarnings("unchecked")
 	public List<Congregacao> listaCongregacaoToZona(Zona zona) {
 
-		String SQL = "select d.* from sgr.ieadam_area a, sgr.ieadam_nucleo b, "
-				+ "sgr.ieadam_zona c, sgr.ieadam_congregacao d "
+		String SQL = "select d.* from ieadam_area a, ieadam_nucleo b, "
+				+ "ieadam_zona c, ieadam_congregacao d "
 				+ "where a.id_nucleo = b.id_nucleo and b.id_zona = c.id_zona "
 				+ "and d.id_area = a.id_area and c.id_zona = " + zona.getIdZona();
 

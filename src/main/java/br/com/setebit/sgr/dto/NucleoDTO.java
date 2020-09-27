@@ -32,7 +32,10 @@ public class NucleoDTO implements Serializable {
 	}
 
 	public int getId() {
-		return id;
+		if (id < 0) 
+			return 0;
+		else
+			return id;
 	}
 
 	public void setId(int id) {

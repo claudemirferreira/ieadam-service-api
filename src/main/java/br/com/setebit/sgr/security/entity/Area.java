@@ -26,7 +26,7 @@ public class Area implements Serializable {
 	private int idArea;
 
 	@Column(name = "id_pastor")
-	private int idPastor;
+	private Integer idPastor;
 
 	@Column(length = 60, nullable = false)
 	private String nome;
@@ -35,7 +35,7 @@ public class Area implements Serializable {
 	private String situacao;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name = "data_ultima_atualizacao")
+	@Column(name = "data_ultima_atualizacao")	                
 	private Date dataUltimaAtualizacao;
 
 	@ManyToOne
@@ -63,11 +63,11 @@ public class Area implements Serializable {
 		this.idArea = idArea;
 	}
 
-	public int getIdPastor() {
+	public Integer getIdPastor() {
 		return idPastor;
 	}
 
-	public void setIdPastor(int idPastor) {
+	public void setIdPastor(Integer idPastor) {
 		this.idPastor = idPastor;
 	}
 

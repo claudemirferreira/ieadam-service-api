@@ -19,8 +19,8 @@ public interface UsuarioAreaServico {
 
 	public UsuarioArea findByUsuarioAndByArea(Usuario usuario, Area area);
 
-	public List<Area> findByUsuario(Usuario usuario);
-
 	UsuarioAreaDTO atualizar(UsuarioAreaDTO dto);
+	
+	public List<UsuarioArea> findByUsuario(Usuario usuario);
 
 }
