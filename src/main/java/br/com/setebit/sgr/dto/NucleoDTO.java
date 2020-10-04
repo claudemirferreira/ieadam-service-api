@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.setebit.sgr.security.entity.Nucleo;
+import br.com.setebit.sgr.security.entity.UsuarioNucleo;
 
 public class NucleoDTO implements Serializable {
 
@@ -78,5 +79,10 @@ public class NucleoDTO implements Serializable {
 		return dtos;
 	}
 
+	public static List<NucleoDTO> toDTOusuarioNucleo(List<UsuarioNucleo> list) {
+		List<NucleoDTO> dtos = new ArrayList<NucleoDTO>();
+		list.forEach(item -> dtos.add(toDTO(item.getNucleo())));
+		return dtos;
+	}
 
 }

@@ -15,6 +15,7 @@ import br.com.setebit.sgr.dto.NucleoDTO;
 import br.com.setebit.sgr.dto.UsuarioDTO;
 import br.com.setebit.sgr.dto.FiltroDTO;
 import br.com.setebit.sgr.dto.ZonaDTO;
+import br.com.setebit.sgr.repository.UsuarioNucleoRepositorio;
 import br.com.setebit.sgr.security.entity.Area;
 import br.com.setebit.sgr.security.entity.Nucleo;
 import br.com.setebit.sgr.security.entity.Usuario;
@@ -40,6 +41,9 @@ public class RelatorioServiceImpl implements RelatorioService {
 
 	@Autowired
 	private NucleoServico nucleoServico;
+	
+	@Autowired
+	private UsuarioNucleoRepositorio usuarioNucleoRepositorio;
 
 	@Autowired
 	private AreaServico areaServico;
@@ -104,6 +108,7 @@ public class RelatorioServiceImpl implements RelatorioService {
 				//lista todas as areas de todos as nucleos do usuario
 				this.parametroRelatorioDTO.setAreas( areaServico.listaAreas(this.parametroRelatorioDTO.getNucleos()));
 			} 
+			
 			if (this.parametroRelatorioDTO.getNucleos().size() == 1) {
 				this.parametroRelatorioDTO.setNucleo(this.parametroRelatorioDTO.getNucleos().iterator().next());
 				this.atualizarArea();
@@ -115,7 +120,6 @@ public class RelatorioServiceImpl implements RelatorioService {
 //				}
 //			}
 			if ( usuario.isArea() ) {
-//				this.parametroRelatorioDTO.getAreas().addAll( this.areaServico.listaAreaToUsuario(usuario.getId()));
 				this.parametroRelatorioDTO.getAreas().addAll( this.usuarioAreaServico.findAreaByUsuario(usuario.getId()));
 				
 				if (this.parametroRelatorioDTO.getAreas().size() == 1) {
@@ -126,6 +130,17 @@ public class RelatorioServiceImpl implements RelatorioService {
 					this.parametroRelatorioDTO.getNucleos().add(this.parametroRelatorioDTO.getArea().getNucleo());
 					this.parametroRelatorioDTO.getZonas().add(this.parametroRelatorioDTO.getArea().getNucleo().getZona());
 				}
+			}else if ( usuario.isNucleo() ){
+				this.parametroRelatorioDTO.getNucleos().addAll( NucleoDTO.toDTOusuarioNucleo(this.usuarioNucleoRepositorio.findByUsuario(new Usuario(usuario.getId()))));
+				
+				if (this.parametroRelatorioDTO.getNucleos().size() == 1) {
+					this.parametroRelatorioDTO.setNucleo(this.parametroRelatorioDTO.getNucleos().iterator().next());
+					this.parametroRelatorioDTO.setZona(this.parametroRelatorioDTO.getNucleo().getZona());
+					this.parametroRelatorioDTO.setAreas( areaServico.findByNucleo(this.parametroRelatorioDTO.getNucleo().getId()));
+					
+					this.parametroRelatorioDTO.getZonas().add(this.parametroRelatorioDTO.getNucleo().getZona());
+				}
+				
 			}
 		}
 	}

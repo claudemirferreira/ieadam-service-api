@@ -125,24 +125,24 @@ public class FiltroDTO implements Serializable {
 
 		if (this.nomeRelatorio.equals("RelatorioDebitoFinanceiro.jasper")) {
 			return "CALL proc_rel_fin_debito_financeiro ('" + this.getAno() + "'," + this.getZona().getId() + ","
-					+ this.getNucleo().getId() + ",, 0);";
+					+ this.getArea().getId() + ",, 0);";
 
 		} else if (this.nomeRelatorio.equals("RelatorioDebitoPastoral.jasper")) {
 			//proc_rel_sec_debito_pastoral ($P{DATA_ANO}, $P{ZONA} , $P{NUCLEO} , $P{AREA}, 0);]]>
 			return "CALL proc_rel_sec_debito_pastoral ('" + this.getAno() + "'," + this.getZona().getId()  + ","
-					+ this.getNucleo().getId() + "," + this.getNucleo().getId() + ", 0);";
+					+ this.getNucleo().getId() + "," + this.getArea().getId() + ", 0);";
 
 		} else if (this.nomeRelatorio.equals("RelatorioDebitoSecretaria.jasper")) {
 			return "CALL proc_rel_sec_debito_secretaria ('" + this.getAno() + "'," + this.getZona() + ","
-					+ this.getNucleo() + "," + this.getNucleo().getId() + ", 0);";
+					+ this.getNucleo() + "," + this.getArea().getId() + ", 0);";
 
 		} else if (this.nomeRelatorio.equals("RelatorioDemonstrativoProventos.jasper")) {
 			return "CALL proc_rel_fin_proventos_pastoral ('" + this.getDataAno() + "'," + this.getZona().getId()  + ","
-					+ this.getNucleo().getId()  + "," + this.getNucleo().getId() + ", 0);";
+					+ this.getNucleo().getId()  + "," + this.getArea().getId() + ", 0);";
 
 		} else if (this.nomeRelatorio.equals("RelatorioSaldoCongregacao.jasper")) {
 			return "CALL proc_rel_fin_saldo_congregacao ('" + this.getAno() + "'," + this.getZona().getId()  + ","
-					+ this.getNucleo().getId()  + "," + this.getNucleo().getId() +", 0);";
+					+ this.getNucleo().getId()  + "," + this.getArea().getId() +", 0);";
 		}
 
 		return "";
