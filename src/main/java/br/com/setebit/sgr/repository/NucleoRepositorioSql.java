@@ -14,5 +14,7 @@ public interface NucleoRepositorioSql {
 	public List<Nucleo> listaNucleoToUsuarioAndZona(int idUsuario, int idZona);
 
 	public boolean isUsuarioDeNucleo(int usuarioId, int idNucleo);
+	
+	public List<Nucleo> listaNucleoToUsuario(Integer idUsuario);
 
 }

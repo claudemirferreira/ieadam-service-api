@@ -7,6 +7,7 @@ import javax.persistence.PersistenceContext;
 
 import org.springframework.stereotype.Repository;
 
+import br.com.setebit.sgr.security.entity.Area;
 import br.com.setebit.sgr.security.entity.Nucleo;
 import br.com.setebit.sgr.security.entity.Usuario;
 import br.com.setebit.sgr.security.entity.Zona;
@@ -99,6 +100,18 @@ public class NucleoRepositorioSqlImpl implements NucleoRepositorioSql {
 		else
 			return false;
 
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<Nucleo> listaNucleoToUsuario(Integer idUsuario) {
+
+		String SQL = " select distinct b.* from ieadam_usuario_nucleo a, ieadam_nucleo b\r\n" + 
+				" where a.id_nucleo = b.id_nucleo \r\n" + 
+				" and a.id_usuario =" + idUsuario;
+		System.out.println(SQL);
+
+		return entityManager.createNativeQuery(SQL, Nucleo.class).getResultList();
 	}
 
 }

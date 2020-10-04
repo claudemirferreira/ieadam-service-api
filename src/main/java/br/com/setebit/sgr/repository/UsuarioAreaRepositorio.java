@@ -24,5 +24,8 @@ public interface UsuarioAreaRepositorio extends JpaRepository<UsuarioArea, Integ
 
 	@Query("select a from UsuarioArea a where a.usuario = :usuario")
 	List<UsuarioArea> findByUsuario(@Param("usuario") Usuario usuario);
+	
+	@Query("select a from UsuarioArea a where a.usuario.id = :idUsuario")
+	List<UsuarioArea> findAreaByUsuario(@Param("idUsuario") Integer idUsuario);
 
 }

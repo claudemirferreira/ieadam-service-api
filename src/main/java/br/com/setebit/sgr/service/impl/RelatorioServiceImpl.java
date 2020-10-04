@@ -22,6 +22,7 @@ import br.com.setebit.sgr.security.jwt.JwtUser;
 import br.com.setebit.sgr.service.AreaServico;
 import br.com.setebit.sgr.service.NucleoServico;
 import br.com.setebit.sgr.service.RelatorioService;
+import br.com.setebit.sgr.service.UsuarioAreaServico;
 import br.com.setebit.sgr.service.UsuarioServico;
 import br.com.setebit.sgr.service.ZonaServico;
 import br.com.setebit.sgr.util.RelatorioUtil;
@@ -45,7 +46,10 @@ public class RelatorioServiceImpl implements RelatorioService {
 	
 	@Autowired
 	private UsuarioServico usuarioServico;
-
+	
+	@Autowired
+	private UsuarioAreaServico usuarioAreaServico;
+	
 	private FiltroRelatorioDTO parametroRelatorioDTO;
 
 	@Override
@@ -104,11 +108,23 @@ public class RelatorioServiceImpl implements RelatorioService {
 				this.parametroRelatorioDTO.setNucleo(this.parametroRelatorioDTO.getNucleos().iterator().next());
 				this.atualizarArea();
 			}
-			else if ( usuario.isArea() ) {
-				this.parametroRelatorioDTO.setAreas( this.areaServico.listaAreaToUsuario(usuario.getId()));
+//			if ( usuario.isNucleo() ) {
+//				this.parametroRelatorioDTO.getNucleos().addAll(this.nucleoServico.listaNucleoToUsuario(usuario.getId()));
+//				if (this.parametroRelatorioDTO.getNucleos().size() == 1) {
+//					this.parametroRelatorioDTO.setNucleo(this.parametroRelatorioDTO.getNucleos().iterator().next());
+//				}
+//			}
+			if ( usuario.isArea() ) {
+//				this.parametroRelatorioDTO.getAreas().addAll( this.areaServico.listaAreaToUsuario(usuario.getId()));
+				this.parametroRelatorioDTO.getAreas().addAll( this.usuarioAreaServico.findAreaByUsuario(usuario.getId()));
+				
 				if (this.parametroRelatorioDTO.getAreas().size() == 1) {
 					this.parametroRelatorioDTO.setArea(this.parametroRelatorioDTO.getAreas().iterator().next());
+					this.parametroRelatorioDTO.setNucleo(this.parametroRelatorioDTO.getArea().getNucleo());
+					this.parametroRelatorioDTO.setZona(this.parametroRelatorioDTO.getArea().getNucleo().getZona());
 					
+					this.parametroRelatorioDTO.getNucleos().add(this.parametroRelatorioDTO.getArea().getNucleo());
+					this.parametroRelatorioDTO.getZonas().add(this.parametroRelatorioDTO.getArea().getNucleo().getZona());
 				}
 			}
 		}

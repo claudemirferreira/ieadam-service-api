@@ -2,9 +2,6 @@ package br.com.setebit.sgr.util;
 
 import java.io.InputStream;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,8 +22,6 @@ public class RelatorioUtil {
 
 	@Autowired
 	private DataSource dataSource;
-
-	private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
 	public RelatorioUtil() {
 	}
@@ -50,23 +45,23 @@ public class RelatorioUtil {
 		parametros.put("DATA_MES_ANO", dto.getDataAno());
 
 		parametros.put("DATA_MES_ANO_INICIO", dto.getDataMesAnoInicio());
-		
+
 		parametros.put("DATA_MES_ANO_FIM", dto.getDataMesAnoFim());
 
-		parametros.put("MES_ANO_INICIO",dto.getMesAnoInicio());
-		
+		parametros.put("MES_ANO_INICIO", dto.getMesAnoInicio());
+
 		parametros.put("MES_ANO_FIM", dto.getMesAnoFim());
 		parametros.put("MESANOFIM", dto.getMesAnoFim());
 		parametros.put("MESANOFIM", dto.getMesAnoInicio());
-		
-		parametros.put("MES_ANO",dto.getMesAnoString());	
-		
+
+		parametros.put("MES_ANO", dto.getMesAnoString());
+
 		parametros.put("DATA_ANO", dto.getAno());
 		parametros.put("ZONA", dto.getZona().getId());
 		parametros.put("NUCLEO", dto.getNucleo().getId());
 		parametros.put("AREA", dto.getArea().getId());
 		parametros.put("MEMBRO", dto.getIdMembro());
-		
+
 		System.out.println(dto.toString());
 
 		return parametros;

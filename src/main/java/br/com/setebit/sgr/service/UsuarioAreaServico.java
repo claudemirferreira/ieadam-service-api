@@ -2,6 +2,7 @@ package br.com.setebit.sgr.service;
 
 import java.util.List;
 
+import br.com.setebit.sgr.dto.AreaDTO;
 import br.com.setebit.sgr.dto.UsuarioAreaDTO;
 import br.com.setebit.sgr.security.entity.Area;
 import br.com.setebit.sgr.security.entity.Usuario;
@@ -20,7 +21,9 @@ public interface UsuarioAreaServico {
 	public UsuarioArea findByUsuarioAndByArea(Usuario usuario, Area area);
 
 	UsuarioAreaDTO atualizar(UsuarioAreaDTO dto);
-	
+
 	public List<UsuarioArea> findByUsuario(Usuario usuario);
+
+	List<AreaDTO> findAreaByUsuario(Integer idUsuario);
 
 }

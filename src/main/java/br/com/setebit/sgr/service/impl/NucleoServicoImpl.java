@@ -79,4 +79,9 @@ public class NucleoServicoImpl implements NucleoServico, Serializable {
 
 		return NucleoDTO.toDTO(nucleos);
 	}
+
+	@Override
+	public List<NucleoDTO> listaNucleoToUsuario(Integer idUsuario) {
+		return NucleoDTO.toDTO(repositorioSql.listaNucleoToUsuario(idUsuario));
+	}
 }

@@ -103,8 +103,6 @@ public class RelatorioController {
 			headers.setContentDispositionFormData(filename, filename);
 			ResponseEntity<byte[]> responseEntity = new ResponseEntity<byte[]>(output, headers, HttpStatus.OK);
 
-			//inseri o log 
-			System.out.println(dto.getNomeRelatorio());
 			logService.salvarLog(dto.getNomeRelatorio());
 			
 			return responseEntity;

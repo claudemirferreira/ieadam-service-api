@@ -47,9 +47,24 @@
 # RelatorioEstatistico -> PROCEDURE SIIAD.dbo.STP_EXPORTA_REL_EST_TER não existe
 
 
---RELATORIO OK
-## RelatorioDebitoSecretaria
-## RelatorioDebitoPastoral
-## RelatorioFichaMembro
-## RelatorioSaldoCongregacao
+Reunião ieadam (26/09)
+
+Parâmetros de teste:     
+        Login com pastor de área (38364)
+
+Problema 1:
+
+1. não está carregando a área no combo (não exibe)
+
+2. Os filtros não estão sendo aplicados na geração do relatório 
+
+Obs. Apenas funciona quando se usa o Adm
+
+Obs2. Todos os relatório estão com o mesmo problema
+
+*********
+
+Problema 2:
+
+os filtros não estão funcionando (quando o usuário seleciona a região.... o combo de área não carrega nada
 

@@ -121,6 +121,33 @@ public class FiltroDTO implements Serializable {
 		this.idMembro = idMembro;
 	}
 
+	public String getProcedure() {
+
+		if (this.nomeRelatorio.equals("RelatorioDebitoFinanceiro.jasper")) {
+			return "CALL proc_rel_fin_debito_financeiro ('" + this.getAno() + "'," + this.getZona().getId() + ","
+					+ this.getNucleo().getId() + ",, 0);";
+
+		} else if (this.nomeRelatorio.equals("RelatorioDebitoPastoral.jasper")) {
+			//proc_rel_sec_debito_pastoral ($P{DATA_ANO}, $P{ZONA} , $P{NUCLEO} , $P{AREA}, 0);]]>
+			return "CALL proc_rel_sec_debito_pastoral ('" + this.getAno() + "'," + this.getZona().getId()  + ","
+					+ this.getNucleo().getId() + "," + this.getNucleo().getId() + ", 0);";
+
+		} else if (this.nomeRelatorio.equals("RelatorioDebitoSecretaria.jasper")) {
+			return "CALL proc_rel_sec_debito_secretaria ('" + this.getAno() + "'," + this.getZona() + ","
+					+ this.getNucleo() + "," + this.getNucleo().getId() + ", 0);";
+
+		} else if (this.nomeRelatorio.equals("RelatorioDemonstrativoProventos.jasper")) {
+			return "CALL proc_rel_fin_proventos_pastoral ('" + this.getDataAno() + "'," + this.getZona().getId()  + ","
+					+ this.getNucleo().getId()  + "," + this.getNucleo().getId() + ", 0);";
+
+		} else if (this.nomeRelatorio.equals("RelatorioSaldoCongregacao.jasper")) {
+			return "CALL proc_rel_fin_saldo_congregacao ('" + this.getAno() + "'," + this.getZona().getId()  + ","
+					+ this.getNucleo().getId()  + "," + this.getNucleo().getId() +", 0);";
+		}
+
+		return "";
+	}
+
 	public String getDataMesAnoInicio() {
 		try {
 			Calendar dataMesAnoInicio = new GregorianCalendar(Integer.parseInt(getAnoInicio()), getMesInicio().getId(),
@@ -151,7 +178,7 @@ public class FiltroDTO implements Serializable {
 		}
 		return null;
 	}
-	
+
 	public String getMesAno() {
 		try {
 			return IEADAMUtils.getMesByIndice(getMesInicio().getId()) + "/" + getDataAno();
@@ -198,20 +225,14 @@ public class FiltroDTO implements Serializable {
 			nucleo = new NucleoDTO();
 		if (area == null)
 			area = new AreaDTO();
-		
-		return "========================================================"
-				+ "\n DATA_MES_ANO = " + getDataAno() 
-				+ "\n DATA_MES_ANO_INICIO = " + getDataMesAnoInicio()
-				+ "\n DATA_MES_ANO_FIM = " + getDataMesAnoFim()
-				+ "\n MES_ANO_INICIO = " + getMesAnoInicio()
-				+ "\n MES_ANO_FIM = " + getMesAnoFim()
-				+ "\n MES_ANO = " + getMesAno()
-				+ "\n DATA_ANO = " + getAno()
-				+ "\n ZONA =" + zona.getId() 
-				+ "\n NUCLEO=" + nucleo.getId() 
-				+ "\n AREA="	+ area.getId() 
-				+ "\n NOME=" + nomeRelatorio;
-		//CALL proc_rel_fin_proventos_pastoral ($P{DATA_MES_ANO}, $P{ZONA} , $P{NUCLEO} , $P{AREA}, 0);
+
+		return "========================================================" + "\n DATA_MES_ANO = " + getDataAno()
+				+ "\n DATA_MES_ANO_INICIO = " + getDataMesAnoInicio() + "\n DATA_MES_ANO_FIM = " + getDataMesAnoFim()
+				+ "\n MES_ANO_INICIO = " + getMesAnoInicio() + "\n MES_ANO_FIM = " + getMesAnoFim() + "\n MES_ANO = "
+				+ getMesAno() + "\n DATA_ANO = " + getAno() + "\n ZONA =" + zona.getId() + "\n NUCLEO=" + nucleo.getId()
+				+ "\n AREA=" + area.getId() + "\n NOME=" + nomeRelatorio + "\n PROCEDURE = " + getProcedure();
+		// CALL proc_rel_fin_proventos_pastoral ($P{DATA_MES_ANO}, $P{ZONA} , $P{NUCLEO}
+		// , $P{AREA}, 0);
 	}
 
 }

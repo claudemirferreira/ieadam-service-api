@@ -29,4 +29,6 @@ public interface NucleoServico {
 	
 	public List<NucleoDTO> listaNucleos(List<ZonaDTO> zonas);
 	
+	public List<NucleoDTO> listaNucleoToUsuario(Integer idUsuario);
+	
 }

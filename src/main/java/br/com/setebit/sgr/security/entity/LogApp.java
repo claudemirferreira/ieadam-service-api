@@ -32,7 +32,7 @@ public class LogApp implements Serializable {
 	private Date dataHoraAcao;
 
 	@ManyToOne
-	@JoinColumn(name = "id_usuario")
+	@JoinColumn(name = "usuario")
 	private Usuario usuario;
 
 	@Column(name = "acao_usuario")
