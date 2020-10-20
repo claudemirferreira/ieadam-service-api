@@ -2,6 +2,7 @@ package br.com.setebit.sgr.util;
 
 import java.io.InputStream;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,6 +23,8 @@ public class RelatorioUtil {
 
 	@Autowired
 	private DataSource dataSource;
+
+	private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
 	public RelatorioUtil() {
 	}
