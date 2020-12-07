@@ -90,6 +90,9 @@ public class RelatorioServiceImpl implements RelatorioService {
 		} else {
 			this.parametroRelatorioDTO.setZonas(ZonaDTO.toDTO(this.zonaServico
 					.listaZonaUsuario(usuario.getId())));
+			this.parametroRelatorioDTO.getAreas().addAll( this.usuarioAreaServico.findAreaByUsuario(usuario.getId()));
+			this.parametroRelatorioDTO.setNucleos( NucleoDTO.toDTOusuarioNucleo(this.usuarioNucleoRepositorio.findByUsuario(new Usuario(usuario.getId()))));
+			
 			if (this.parametroRelatorioDTO.getZonas().size() == 1) {
 				this.parametroRelatorioDTO.setZona(this.parametroRelatorioDTO.getZonas().iterator().next());
 				this.atualizarNucleo();
@@ -104,8 +107,7 @@ public class RelatorioServiceImpl implements RelatorioService {
 				this.parametroRelatorioDTO.setNucleo(this.parametroRelatorioDTO.getNucleos().iterator().next());
 				this.atualizarArea();
 			}
-			if ( usuario.isArea() ) {
-				this.parametroRelatorioDTO.getAreas().addAll( this.usuarioAreaServico.findAreaByUsuario(usuario.getId()));
+			if ( this.parametroRelatorioDTO.getAreas().size() > 0 ) {
 				
 				if (this.parametroRelatorioDTO.getAreas().size() == 1) {
 					this.parametroRelatorioDTO.setArea(this.parametroRelatorioDTO.getAreas().iterator().next());
@@ -115,8 +117,8 @@ public class RelatorioServiceImpl implements RelatorioService {
 					this.parametroRelatorioDTO.getNucleos().add(this.parametroRelatorioDTO.getArea().getNucleo());
 					this.parametroRelatorioDTO.getZonas().add(this.parametroRelatorioDTO.getArea().getNucleo().getZona());
 				}
-			}else if ( usuario.isNucleo() ){
-				this.parametroRelatorioDTO.getNucleos().addAll( NucleoDTO.toDTOusuarioNucleo(this.usuarioNucleoRepositorio.findByUsuario(new Usuario(usuario.getId()))));
+			}else if ( this.parametroRelatorioDTO.getNucleos().size() > 0 ){
+				//this.parametroRelatorioDTO.getNucleos().addAll( NucleoDTO.toDTOusuarioNucleo(this.usuarioNucleoRepositorio.findByUsuario(new Usuario(usuario.getId()))));
 				
 				if (this.parametroRelatorioDTO.getNucleos().size() == 1) {
 					this.parametroRelatorioDTO.setNucleo(this.parametroRelatorioDTO.getNucleos().iterator().next());
@@ -125,14 +127,12 @@ public class RelatorioServiceImpl implements RelatorioService {
 					
 					this.parametroRelatorioDTO.getZonas().add(this.parametroRelatorioDTO.getNucleo().getZona());
 				}
-				
 			}
 		}
 	}
 
 	public void atualizarNucleo() {
 		boolean zonaAssociada = false;
-
 		this.parametroRelatorioDTO.setNucleos(new ArrayList<NucleoDTO>());
 		this.parametroRelatorioDTO.setNucleo(new NucleoDTO());
 		this.parametroRelatorioDTO.setAreas(new ArrayList<AreaDTO>());

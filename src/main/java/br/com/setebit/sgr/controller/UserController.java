@@ -63,6 +63,26 @@ public class UserController {
 		}
 	}
 
+	@PutMapping("/{id}")
+	public ResponseEntity<Response<UsuarioDTO>> updateUser(HttpServletRequest request, @RequestBody Usuario user,
+			BindingResult result) {
+		Response<UsuarioDTO> response = new Response<UsuarioDTO>();
+		try {
+			validate(user, result);
+			if (result.hasErrors()) {
+				result.getAllErrors().forEach(error -> response.getErrors().add(error.getDefaultMessage()));
+				return ResponseEntity.badRequest().body(response);
+			}
+			service.updateUser(user.isZona(), user.isNucleo(), user.isArea(), user.getId());
+			UsuarioDTO userPersisted = UsuarioDTO.toDTO(service.findByOne(user.getId()));
+			response.setData(userPersisted);
+		} catch (Exception e) {
+			response.getErrors().add(e.getMessage());
+			return ResponseEntity.badRequest().body(response);
+		}
+		return ResponseEntity.ok(response);
+	}
+
 	@PutMapping()
 	public ResponseEntity<Response<UsuarioDTO>> update(HttpServletRequest request, @RequestBody Usuario user,
 			BindingResult result) {

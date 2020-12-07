@@ -39,5 +39,7 @@ public interface UsuarioServico extends UserDetailsService {
 	
 	Page<Usuario> pesquisarUsuario(UsuarioDTO usuario, int page, int size);
 	
+	Integer updateUser(boolean zona, boolean nucleo, boolean area, Integer idUsuario);
+	
 
 }

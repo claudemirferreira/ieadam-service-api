@@ -189,17 +189,18 @@ public class UsuarioServicoImpl implements UsuarioServico {
 	public Page<Usuario> pesquisarUsuario(UsuarioDTO usuario, int page, int size) {
 		Pageable pageable = PageRequest.of(page, size, Sort.by("nome"));
 		
-		System.out.println("page="+page);
-		System.out.println("size="+size);
-		System.out.println("nome="+usuario.getNomeFiltro());
-		System.out.println("login="+usuario.getLoginFiltro());
-		System.out.println("idMembro="+usuario.getIdMembroFiltro());
 		if(usuario.getNomeFiltro() == null 
 				&& usuario.getLoginFiltro() == null
 				&& usuario.getIdMembroFiltro() < 0)
 			return usuarioRepositorio.findAll(pageable);
 		else 
 			return usuarioRepositorio.pesquisa(usuario.getNomeFiltro(), usuario.getLoginFiltro(), usuario.getIdMembroFiltro(), pageable);
+		
+	}
+
+	@Override
+	public Integer updateUser(boolean zona, boolean nucleo, boolean area, Integer idUsuario) {
+		return usuarioRepositorio.updateUser(zona, nucleo, area, idUsuario);
 		
 	}
 
