@@ -15,6 +15,7 @@ import br.com.setebit.sgr.dto.NucleoDTO;
 import br.com.setebit.sgr.dto.UsuarioDTO;
 import br.com.setebit.sgr.dto.FiltroDTO;
 import br.com.setebit.sgr.dto.ZonaDTO;
+import br.com.setebit.sgr.repository.NucleoRepositorio;
 import br.com.setebit.sgr.repository.UsuarioNucleoRepositorio;
 import br.com.setebit.sgr.security.entity.Area;
 import br.com.setebit.sgr.security.entity.Nucleo;
@@ -90,44 +91,40 @@ public class RelatorioServiceImpl implements RelatorioService {
 		} else {
 			this.parametroRelatorioDTO.setZonas(ZonaDTO.toDTO(this.zonaServico
 					.listaZonaUsuario(usuario.getId())));
-			this.parametroRelatorioDTO.getAreas().addAll( this.usuarioAreaServico.findAreaByUsuario(usuario.getId()));
 			this.parametroRelatorioDTO.setNucleos( NucleoDTO.toDTOusuarioNucleo(this.usuarioNucleoRepositorio.findByUsuario(new Usuario(usuario.getId()))));
-			
-			if (this.parametroRelatorioDTO.getZonas().size() == 1) {
+			this.parametroRelatorioDTO.getAreas().addAll( this.usuarioAreaServico.findAreaByUsuario(usuario.getId()));
+			if (this.parametroRelatorioDTO.getZonas().size() == 1) 
 				this.parametroRelatorioDTO.setZona(this.parametroRelatorioDTO.getZonas().iterator().next());
-				this.atualizarNucleo();
-			} else if (this.parametroRelatorioDTO.getZonas().size() > 1){
-				//lista todos os nucleo de todas as zonas do usuario
-				this.parametroRelatorioDTO.setNucleos( nucleoServico.listaNucleos(this.parametroRelatorioDTO.getZonas()));
-				//lista todas as areas de todos as nucleos do usuario
-				this.parametroRelatorioDTO.setAreas( areaServico.listaAreas(this.parametroRelatorioDTO.getNucleos()));
-			} 
+			this.atualizarNucleoNew();
 			
-			if (this.parametroRelatorioDTO.getNucleos().size() == 1) {
-				this.parametroRelatorioDTO.setNucleo(this.parametroRelatorioDTO.getNucleos().iterator().next());
-				this.atualizarArea();
-			}
-			if ( this.parametroRelatorioDTO.getAreas().size() > 0 ) {
-				
-				if (this.parametroRelatorioDTO.getAreas().size() == 1) {
-					this.parametroRelatorioDTO.setArea(this.parametroRelatorioDTO.getAreas().iterator().next());
-					this.parametroRelatorioDTO.setNucleo(this.parametroRelatorioDTO.getArea().getNucleo());
-					this.parametroRelatorioDTO.setZona(this.parametroRelatorioDTO.getArea().getNucleo().getZona());
-					
-					this.parametroRelatorioDTO.getNucleos().add(this.parametroRelatorioDTO.getArea().getNucleo());
-					this.parametroRelatorioDTO.getZonas().add(this.parametroRelatorioDTO.getArea().getNucleo().getZona());
-				}
-			}else if ( this.parametroRelatorioDTO.getNucleos().size() > 0 ){
-				//this.parametroRelatorioDTO.getNucleos().addAll( NucleoDTO.toDTOusuarioNucleo(this.usuarioNucleoRepositorio.findByUsuario(new Usuario(usuario.getId()))));
-				
-				if (this.parametroRelatorioDTO.getNucleos().size() == 1) {
-					this.parametroRelatorioDTO.setNucleo(this.parametroRelatorioDTO.getNucleos().iterator().next());
-					this.parametroRelatorioDTO.setZona(this.parametroRelatorioDTO.getNucleo().getZona());
-					this.parametroRelatorioDTO.setAreas( areaServico.findByNucleo(this.parametroRelatorioDTO.getNucleo().getId()));
-					
-					this.parametroRelatorioDTO.getZonas().add(this.parametroRelatorioDTO.getNucleo().getZona());
-				}
-			}
+//			if (this.parametroRelatorioDTO.getNucleos().size() == 1) {
+//				this.parametroRelatorioDTO.setNucleo(this.parametroRelatorioDTO.getNucleos().iterator().next());
+//				this.atualizarArea();
+//			}else if (this.parametroRelatorioDTO.getNucleos().size() > 1) {
+//				//this.parametroRelatorioDTO.setNucleo(this.parametroRelatorioDTO.getNucleos().iterator().next());
+//				carregarArea(this.parametroRelatorioDTO.getNucleos());
+//			}
+//			if ( this.parametroRelatorioDTO.getAreas().size() > 0 ) {
+//				
+//				if (this.parametroRelatorioDTO.getAreas().size() == 1) {
+//					this.parametroRelatorioDTO.setArea(this.parametroRelatorioDTO.getAreas().iterator().next());
+//					this.parametroRelatorioDTO.setNucleo(this.parametroRelatorioDTO.getArea().getNucleo());
+//					this.parametroRelatorioDTO.setZona(this.parametroRelatorioDTO.getArea().getNucleo().getZona());
+//					
+//					this.parametroRelatorioDTO.getNucleos().add(this.parametroRelatorioDTO.getArea().getNucleo());
+//					this.parametroRelatorioDTO.getZonas().add(this.parametroRelatorioDTO.getArea().getNucleo().getZona());
+//				}
+//			}else if ( this.parametroRelatorioDTO.getNucleos().size() > 0 ){
+//				//this.parametroRelatorioDTO.getNucleos().addAll( NucleoDTO.toDTOusuarioNucleo(this.usuarioNucleoRepositorio.findByUsuario(new Usuario(usuario.getId()))));
+//				
+//				if (this.parametroRelatorioDTO.getNucleos().size() == 1) {
+//					this.parametroRelatorioDTO.setNucleo(this.parametroRelatorioDTO.getNucleos().iterator().next());
+//					this.parametroRelatorioDTO.setZona(this.parametroRelatorioDTO.getNucleo().getZona());
+//					this.parametroRelatorioDTO.setAreas( areaServico.findByNucleo(this.parametroRelatorioDTO.getNucleo().getId()));
+//					
+//					this.parametroRelatorioDTO.getZonas().add(this.parametroRelatorioDTO.getNucleo().getZona());
+//				}
+//			}
 		}
 	}
 
@@ -175,15 +172,32 @@ public class RelatorioServiceImpl implements RelatorioService {
 		}
 
 	}
+	
+	public void atualizarNucleoNew() {
+		this.parametroRelatorioDTO.setNucleo(new NucleoDTO());
+		this.parametroRelatorioDTO.setAreas(new ArrayList<AreaDTO>());
+		this.parametroRelatorioDTO.setArea(new AreaDTO());
+		if(this.parametroRelatorioDTO.getZonas().size() > 0)
+			this.parametroRelatorioDTO.setNucleos(nucleoServico.listaNucleos(this.parametroRelatorioDTO.getZonas()));
+		if (this.parametroRelatorioDTO.getNucleos().size() > 0)
+			this.parametroRelatorioDTO.setAreas(areaServico.listaAreas(this.parametroRelatorioDTO.getNucleos()));
+		else 
+			this.parametroRelatorioDTO.setAreas(areaServico.listaAreaToUsuario(this.parametroRelatorioDTO.getUsuarioLogado().getId()));
+		
+		if (this.parametroRelatorioDTO.getAreas().size() == 1)
+			this.parametroRelatorioDTO.setArea(this.parametroRelatorioDTO.getAreas().iterator().next());
+		if (this.parametroRelatorioDTO.getNucleos().size() == 1)
+			this.parametroRelatorioDTO.setNucleo(this.parametroRelatorioDTO.getNucleos().iterator().next());
+
+
+	}
 
 	/**
 	 * Metodo utilizado para atualizar o combo de Nucleo
 	 */
 	public void atualizarArea() {
-
 		this.parametroRelatorioDTO.setAreas(new ArrayList<AreaDTO>());
 		this.parametroRelatorioDTO.setArea(new AreaDTO());
-
 		boolean nucleoAssociado = false;
 
 		if (this.parametroRelatorioDTO.getNucleo().getId() != 0) {
@@ -288,6 +302,15 @@ public class RelatorioServiceImpl implements RelatorioService {
 			}
 		}
 		
+		return this.parametroRelatorioDTO.getAreas();
+	}
+	
+
+	public List<AreaDTO> carregarArea(List<NucleoDTO> nucleos) {
+
+		this.parametroRelatorioDTO.setAreas(new ArrayList<AreaDTO>());
+		this.parametroRelatorioDTO.setArea(new AreaDTO());
+		this.parametroRelatorioDTO.setAreas(this.areaServico.listaAreas(nucleos));
 		return this.parametroRelatorioDTO.getAreas();
 	}
 	
