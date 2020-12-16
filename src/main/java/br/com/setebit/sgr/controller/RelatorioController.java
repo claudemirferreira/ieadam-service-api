@@ -63,18 +63,18 @@ public class RelatorioController {
 	}
 
 	@GetMapping(value = "/carregarNucleo/{idZona}")
-	public ResponseEntity<Response<List<NucleoDTO>>> carregarNucleo(@PathVariable("idZona") String idZona) {
-		System.out.println("##############carregarNucleo()");
-		List<NucleoDTO> lista = service.carregarNucleo(Integer.parseInt(idZona));
+	public ResponseEntity<Response<List<NucleoDTO>>> carregarNucleo(@PathVariable("idZona") Integer idZona) {
+		System.out.println("##############carregarNucleo()="+idZona);
+		List<NucleoDTO> lista = service.carregarNucleo(idZona);
 		Response<List<NucleoDTO>> response = new Response<List<NucleoDTO>>();
 		response.setData(lista);
 		return ResponseEntity.ok(response);
 	}
 
 	@GetMapping(value = "/carregarArea/{idNucleo}")
-	public ResponseEntity<Response<List<AreaDTO>>> carregarArea(@PathVariable("idNucleo") String idNucleo) {
-		System.out.println("##############carregarNucleo()");
-		List<AreaDTO> lista = service.carregarArea(Integer.parseInt(idNucleo));
+	public ResponseEntity<Response<List<AreaDTO>>> carregarArea(@PathVariable("idNucleo") Integer idNucleo) {
+		System.out.println("##############carregarNucleo()="+idNucleo);
+		List<AreaDTO> lista = service.carregarArea(idNucleo);
 		Response<List<AreaDTO>> response = new Response<List<AreaDTO>>();
 		response.setData(lista);
 		return ResponseEntity.ok(response);
