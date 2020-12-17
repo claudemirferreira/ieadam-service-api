@@ -247,6 +247,21 @@ public class RelatorioServiceImpl implements RelatorioService {
 		}else {
 			return nucleoServico.findByZona(id);			
 		}
+	}
+
+	public FiltroRelatorioDTO carregarNucleo(Integer id) {
+		FiltroRelatorioDTO dto = new FiltroRelatorioDTO();
+		JwtUser user = (JwtUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		//TODO pega o usuario no banco de dados
+		UsuarioDTO usuario = UsuarioDTO.toDTO(usuarioServico.findByOne( Integer.parseInt(user.getId())));
+		
+		if (!usuario.isZona() && usuario.isNucleo()) {
+			dto.setNucleos(nucleoServico.listaNucleoToUsuario(usuario.getId()));
+		}else {
+			dto.setNucleos(nucleoServico.findByZona(id));
+		}
+		dto.setAreas(areaServico.listaAreas(dto.getNucleos()));
+		return dto;
 		
 	}
 	

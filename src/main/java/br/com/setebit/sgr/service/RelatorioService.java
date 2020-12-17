@@ -22,5 +22,7 @@ public interface RelatorioService {
 	public List<AreaDTO> carregarArea(int idNucleo);
 	
 	public ComboDTO atualizarCombos(ComboDTO dto);
+	
+	public FiltroRelatorioDTO carregarNucleo(Integer id);
 
 }
