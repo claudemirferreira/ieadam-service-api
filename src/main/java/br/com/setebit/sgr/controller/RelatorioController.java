@@ -25,7 +25,6 @@ import br.com.setebit.sgr.dto.AreaDTO;
 import br.com.setebit.sgr.dto.ComboDTO;
 import br.com.setebit.sgr.dto.FiltroDTO;
 import br.com.setebit.sgr.dto.FiltroRelatorioDTO;
-import br.com.setebit.sgr.dto.NucleoDTO;
 import br.com.setebit.sgr.dto.PerfilDTO;
 import br.com.setebit.sgr.response.Response;
 import br.com.setebit.sgr.service.LogAppServico;

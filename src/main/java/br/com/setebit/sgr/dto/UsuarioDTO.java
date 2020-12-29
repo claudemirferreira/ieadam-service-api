@@ -73,6 +73,24 @@ public class UsuarioDTO implements Serializable {
 		return dto;
 	}
 
+	public static Usuario getEntity(UsuarioDTO dto) {
+		Usuario entity = new Usuario();
+		entity.setId(dto.getId());
+		entity.setLogin(dto.getLogin());
+		entity.setSenha(dto.getSenha());
+		entity.setStatus(dto.getStatus());
+		entity.setZona(dto.isZona());
+		entity.setArea(dto.isArea());
+		entity.setNucleo(dto.isNucleo());
+		entity.setIn_privilegio(dto.isIn_privilegio());
+		entity.setTelefone(dto.getTelefone());
+		entity.setEmail(dto.getEmail());
+		entity.setIdMembro(dto.getIdMembro());
+		entity.setNome(dto.getNome());
+		
+		return entity;
+	}
+
 	public static UsuarioDTO toDTO(Usuario entity) {
 		return getDTO(entity);
 	}

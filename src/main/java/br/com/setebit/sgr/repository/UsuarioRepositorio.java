@@ -47,5 +47,11 @@ public interface UsuarioRepositorio extends JpaRepository<Usuario, Integer> {
             nativeQuery = true)
 	Integer updateUser(boolean zona, boolean nucleo, boolean area, Integer idUsuario);
 	
+	@Modifying	
+	@Transactional
+    @Query(value = "UPDATE saa_usuario u set senha =?1 where u.id_usuario = ?2",
+            nativeQuery = true)
+	Integer updateSenha(String senha, Integer idUsuario);
+	
 	
 }

@@ -41,5 +41,7 @@ public interface UsuarioServico extends UserDetailsService {
 	
 	Integer updateUser(boolean zona, boolean nucleo, boolean area, Integer idUsuario);
 	
+	public void atualizarSenha();
+	
 
 }

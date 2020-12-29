@@ -50,18 +50,21 @@ public class ScriptController {
 	public ResponseEntity<Response<List<UsuarioDTO>>> atualizarSenhas() {
 		System.out.println("###############listarPerfilUsuario");
 		Response<List<UsuarioDTO>> response = new Response<List<UsuarioDTO>>();
-		List<Usuario> list = usuarioServico.listarTodos();
-		for (Usuario dto : list) {
-			System.out.println(dto.getSenha());
-			
-			try {
-				dto.setSenha( passwordEncoder.encode(dto.getSenha()));
-				usuarioServico.salvar(dto);
-				
-			} catch (Exception e) {
-				System.out.println("o usuario " + dto.getLogin() +" está com a senha nula.");
-			}
-		}
+		//List<Usuario> list = usuarioServico.listarTodos();
+		usuarioServico.atualizarSenha();
+//		
+//		for (Usuario dto : list) {
+//			System.out.println(dto.getSenha());
+//			
+//			try {
+//				dto.setSenha( passwordEncoder.encode(dto.getSenha()));
+//				usuarioServico.salvar(dto);
+//				
+//			} catch (Exception e) {
+//				System.out.println("o usuario " + dto.getLogin() +" está com a senha nula.");
+//			}
+//		}
+		
 		List<UsuarioDTO> data = UsuarioDTO.toDTO(usuarioServico.listarTodos());
 		response.setData(data);
 		return ResponseEntity.ok(response);

@@ -20,7 +20,6 @@ import br.com.setebit.sgr.dto.UsuarioDTO;
 import br.com.setebit.sgr.dto.UsuarioNucleoDTO;
 import br.com.setebit.sgr.dto.UsuarioZonaDTO;
 import br.com.setebit.sgr.repository.MembroRepositorio;
-import br.com.setebit.sgr.repository.UsuarioPagination;
 import br.com.setebit.sgr.repository.UsuarioRepositorio;
 import br.com.setebit.sgr.repository.UsuarioRepositorioJPA;
 import br.com.setebit.sgr.security.entity.Area;
@@ -45,7 +44,7 @@ public class UsuarioServicoImpl implements UsuarioServico {
 
 	@Autowired
 	private UsuarioRepositorio usuarioRepositorio;
-	
+
 	@Autowired
 	private MembroRepositorio membroRepositorio;
 
@@ -72,9 +71,6 @@ public class UsuarioServicoImpl implements UsuarioServico {
 
 	@Autowired
 	private UsuarioAreaServico usuarioAreaServico;
-	
-	@Autowired
-	private UsuarioPagination usuarioPagination;
 
 	@Override
 	public Usuario findByLoginAndSenha(String login, String senha) throws NoResultException {
@@ -94,8 +90,19 @@ public class UsuarioServicoImpl implements UsuarioServico {
 	}
 
 	@Override
+	public void atualizarSenha() {
+		List<Usuario> list = this.usuarioRepositorio.findAll();
+		for (Usuario usuario : list) {
+			if (usuario.getSenha() != null) {
+				usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
+				usuarioRepositorio.updateSenha(usuario.getSenha(), usuario.getId());
+			}
+		}
+	}
+
+	@Override
 	public Usuario salvar(Usuario usuario) {
-		if(usuario.getSenha() == null)
+		if (usuario.getSenha() == null)
 			usuario.setSenha(passwordEncoder.encode("ieadam"));
 		return this.usuarioRepositorio.save(usuario);
 	}
@@ -128,15 +135,16 @@ public class UsuarioServicoImpl implements UsuarioServico {
 
 	@Override
 	public Page<Usuario> findByNomeLike(String nome, int page, int size) {
-		//PageRequest pageRequest = PageRequest.of(page, size, Sort.Direction.ASC, "nome");
-		return null; //usuarioRepositorio.findByNomeLike(nome, pageRequest);
+		// PageRequest pageRequest = PageRequest.of(page, size, Sort.Direction.ASC,
+		// "nome");
+		return null; // usuarioRepositorio.findByNomeLike(nome, pageRequest);
 	}
 
 	@Override
 	public UsuarioAssociacaoDTO findUsuarioAssociacao(Integer id) {
 		Membro m = membroRepositorio.findById(id).get();
 		System.out.println();
-		Usuario  u = usuarioRepositorio.findByIdMembro( m.getIdMembro());
+		Usuario u = usuarioRepositorio.findByIdMembro(m.getIdMembro());
 
 		UsuarioDTO usuario = UsuarioDTO.toDTO(u);
 		UsuarioAssociacaoDTO dto = new UsuarioAssociacaoDTO();
@@ -148,60 +156,60 @@ public class UsuarioServicoImpl implements UsuarioServico {
 
 		for (UsuarioZonaDTO usuarioZona : dto.getUsuarioZonas()) {
 			usuarioZona.setIdUsuario(usuario.getId());
-			UsuarioZona uz = usuarioZonaServico.findByUsuarioAndByZona(new Usuario(usuario.getId()), new Zona(usuarioZona.getIdZona()));
+			UsuarioZona uz = usuarioZonaServico.findByUsuarioAndByZona(new Usuario(usuario.getId()),
+					new Zona(usuarioZona.getIdZona()));
 			if (uz != null) {
 				usuarioZona.setUsuarioZona(true);
-				usuarioZona.setIdUsuarioZona(uz.getIdUsuarioZona());		
+				usuarioZona.setIdUsuarioZona(uz.getIdUsuarioZona());
 			}
 		}
-		
+
 		for (UsuarioNucleoDTO usuarioNucleo : dto.getUsuarioNucleos()) {
 			usuarioNucleo.setIdUsuario(usuario.getId());
-			UsuarioNucleo uz = usuarioNucleoServico.findByUsuarioAndByNucleo(new Usuario(usuario.getId()), new Nucleo(usuarioNucleo.getIdNucleo()));
+			UsuarioNucleo uz = usuarioNucleoServico.findByUsuarioAndByNucleo(new Usuario(usuario.getId()),
+					new Nucleo(usuarioNucleo.getIdNucleo()));
 			if (uz != null) {
 				usuarioNucleo.setUsuarioNucleo(true);
-				usuarioNucleo.setIdUsuarioNucleo(uz.getIdUsuarioNucleo());		
+				usuarioNucleo.setIdUsuarioNucleo(uz.getIdUsuarioNucleo());
 			}
 		}
-		
+
 		for (UsuarioAreaDTO usuarioArea : dto.getUsuarioAreas()) {
 			usuarioArea.setIdUsuario(usuario.getId());
-			UsuarioArea uz = usuarioAreaServico.findByUsuarioAndByArea(new Usuario(usuario.getId()), new Area(usuarioArea.getIdArea()));
+			UsuarioArea uz = usuarioAreaServico.findByUsuarioAndByArea(new Usuario(usuario.getId()),
+					new Area(usuarioArea.getIdArea()));
 			if (uz != null) {
 				usuarioArea.setUsuarioArea(true);
-				usuarioArea.setIdUsuarioArea(uz.getIdUsuarioArea());		
+				usuarioArea.setIdUsuarioArea(uz.getIdUsuarioArea());
 			}
 		}
 
 		return dto;
 	}
-	
+
 	@Override
 	public Usuario alterarSenha(UsuarioDTO dto) {
-		Usuario usuario = this.usuarioRepositorio.findByLogin(dto.getLogin());
-		System.out.println("nova senha="+dto.getSenha());
-		usuario.setSenha(passwordEncoder.encode(dto.getSenha()));
-		this.usuarioRepositorio.save(usuario);
-		return usuario;
+		dto.setSenha(passwordEncoder.encode(dto.getSenha()));
+		this.usuarioRepositorio.updateSenha(dto.getSenha(), dto.getId());
+		return this.usuarioRepositorio.findByLogin(dto.getLogin());
 	}
 
 	@Override
 	public Page<Usuario> pesquisarUsuario(UsuarioDTO usuario, int page, int size) {
 		Pageable pageable = PageRequest.of(page, size, Sort.by("nome"));
-		
-		if(usuario.getNomeFiltro() == null 
-				&& usuario.getLoginFiltro() == null
-				&& usuario.getIdMembroFiltro() < 0)
+
+		if (usuario.getNomeFiltro() == null && usuario.getLoginFiltro() == null && usuario.getIdMembroFiltro() < 0)
 			return usuarioRepositorio.findAll(pageable);
-		else 
-			return usuarioRepositorio.pesquisa(usuario.getNomeFiltro(), usuario.getLoginFiltro(), usuario.getIdMembroFiltro(), pageable);
-		
+		else
+			return usuarioRepositorio.pesquisa(usuario.getNomeFiltro(), usuario.getLoginFiltro(),
+					usuario.getIdMembroFiltro(), pageable);
+
 	}
 
 	@Override
 	public Integer updateUser(boolean zona, boolean nucleo, boolean area, Integer idUsuario) {
 		return usuarioRepositorio.updateUser(zona, nucleo, area, idUsuario);
-		
+
 	}
 
 }
