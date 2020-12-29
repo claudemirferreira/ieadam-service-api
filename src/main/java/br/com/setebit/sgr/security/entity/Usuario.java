@@ -35,6 +35,7 @@ public class Usuario implements Serializable {
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "usuarioPerfilPk.usuario", cascade={CascadeType.ALL})
 	@JsonIgnore
+	@Transient
 	private List<UsuarioPerfil> usuarioPerfil = new ArrayList<UsuarioPerfil>();
 
 	@Column(unique = true, length = 30)

@@ -7,10 +7,8 @@ import javax.persistence.PersistenceContext;
 
 import org.springframework.stereotype.Repository;
 
-import br.com.setebit.sgr.security.entity.Area;
 import br.com.setebit.sgr.security.entity.Nucleo;
 import br.com.setebit.sgr.security.entity.Usuario;
-import br.com.setebit.sgr.security.entity.Zona;
 
 @Repository
 public class NucleoRepositorioSqlImpl implements NucleoRepositorioSql {
