@@ -1,5 +1,6 @@
 package br.com.setebit.sgr;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -11,7 +12,7 @@ import br.com.setebit.sgr.security.entity.Usuario;
 
 @SpringBootApplication
 public class IeadamServiceApiApplication {
-
+	
 	public static void main(String[] args) {
 		
 		SpringApplication.run(IeadamServiceApiApplication.class, args);
